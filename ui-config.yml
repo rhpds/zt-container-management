@@ -1,0 +1,24 @@
+---
+antora:
+  name: modules
+  dir: www
+  modules:
+    - name: "01-install-podman"
+      label: "Install Podman"
+      solveButton: false
+    - name: "02-gui-container-management"
+      label: "Gui Container Management"
+      solveButton: false
+    - name: "03-test-grafana-web-interface-gui"
+      label: "Test Grafana Web Interface Gui"
+      solveButton: false
+    - name: "04-cli-container-management"
+      label: "Cli Container Management"
+      solveButton: false
+    - name: "05-test-grafana-web-interface-cli"
+      label: "Test Grafana Web Interface Cli"
+      solveButton: false
+
+tabs:
+  - name: ">_ terminal"
+    url: /wetty_rhel/ssh/root
