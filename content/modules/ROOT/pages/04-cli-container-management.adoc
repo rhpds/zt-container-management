@@ -1,6 +1,8 @@
-Now you will set up a new Grafana container, but this time, you will do
-so through the Podman command line interface (CLI). Next, download and
-start a Podman image for Grafana with this command:
+:imagesdir: ../assets/images
+
+== CLI based Container Management
+
+Now you will set up a new Grafana container, but this time, you will do so through the Podman command line interface (CLI). Next, download and start a Podman image for Grafana with this command:
 
 [source,bash,run]
 ----
@@ -8,14 +10,7 @@ podman run -d --name=Grafana -p 3000:3000 docker.io/grafana/grafana:latest
 ----
 
 ____
-Explanation of the command you just ran: * `+--name=Grafana+` specifies
-the name of your container. * `+-p 3000:3000+` specifies that the
-container should connect through the host’s port 3000 and the
-container’s port 3000. * `+docker.io/grafana/grafana:latest+` is the URL
-of the dockerfile that your container is based on. `+Grafana/grafana+`
-is the name of the image and `+:latest+` indicates that you want the
-most recent version. This allows Podman to retrieve the correct
-container.
+Explanation of the command you just ran: * `+--name=Grafana+` specifies the name of your container. * `+-p 3000:3000+` specifies that the container should connect through the host’s port 3000 and the container’s port 3000. * `+docker.io/grafana/grafana:latest+` is the URL of the dockerfile that your container is based on. `+Grafana/grafana+` is the name of the image and `+:latest+` indicates that you want the most recent version. This allows Podman to retrieve the correct container.
 ____
 
 Finally, run this command to view your containers in Podman:
@@ -26,3 +21,11 @@ podman ps
 ----
 
 The output should look like this, although the Container ID will differ:
+
+[source,bash,run]
+----
+CONTAINER ID  IMAGE                        COMMAND               CREATED     STATUS    PORTS                    NAMES
+665860287929  docker.io/grafana/grafana   "/run.sh"             10 days ago  Up 10 days  0.0.0.0:3000->3000/tcp   Grafana
+----
+
+Proceed to the next step.

@@ -1,3 +1,5 @@
+== Install Container Tools and Podman
+
 In this lab, you will install Grafana, a browser-based data dashboard,
 in two ways. First, you will install and run it through the RHEL web
 console. After that, you will install and configure the Grafana

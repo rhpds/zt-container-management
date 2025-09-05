@@ -3,11 +3,36 @@ virtualmachines:
   - name: "rhel"
     image: "rhel-10-0-07-09-25-3"
     bootloader: efi
-    memory: "46"
+    memory: "4G"
     cores: 1
     packages:
       - tmux
     image_size: "40G"
+    services:
+      - name: cockpit
+        ports:
+          - port: 9090
+            protocol: TCP
+            targetPort: 9090
+            name: cockpit
+      - name: grafana
+        ports:
+          - port: 3000
+            protocol: TCP
+            targetPort: 3000
+            name: grafana
+    routes:
+      - name: cockpit
+        host: cockpit
+        service: cockpit
+        targetPort: 9090
+        tls: true
+        tls_termination: Edge
+      - name: grafana
+        host: grafana
+        targetPort: 3000
+        tls: true
+        tls_termination: Edge
     tags:
       - key: "AnsibleGroup"
         value: "bastions"
