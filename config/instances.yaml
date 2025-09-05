@@ -30,6 +30,7 @@ virtualmachines:
         tls_termination: Edge
       - name: grafana
         host: grafana
+        service: grafana
         targetPort: 3000
         tls: true
         tls_termination: Edge
