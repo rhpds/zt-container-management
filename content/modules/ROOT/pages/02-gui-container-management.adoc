@@ -12,7 +12,21 @@ First, click on the `+RHEL Web Console+` tab.
 
 image::pop-out-2.png[../assets/pop-out-2]
 
-Next, log in with the following credentials: >* Username: rhel >* Password: redhat
+Next, log in with the following credentials:
+
+Username:
+
+[source,js]
+----
+rhel
+----
+
+Password:
+
+[source,js,subs="+macros,+attributes",role=execute]
+----
+{bastion_ssh_password}
+----
 
 image::Web-console-login.png[../assets/Web-console-login]
 
