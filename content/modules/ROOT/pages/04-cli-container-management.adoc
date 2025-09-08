@@ -27,7 +27,7 @@ podman ps
 
 The output should look like this, although the Container ID will differ:
 
-[source,bash,run]
+[source,text,nocopy]
 ----
 CONTAINER ID  IMAGE                        COMMAND               CREATED     STATUS    PORTS                    NAMES
 665860287929  docker.io/grafana/grafana   "/run.sh"             10 days ago  Up 10 days  0.0.0.0:3000->3000/tcp   Grafana

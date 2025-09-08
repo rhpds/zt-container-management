@@ -15,14 +15,15 @@ image::pop-out-2.png[../assets/pop-out-2]
 
 Next, log in with the following credentials:
 
-Username:
+. Username:
 
 [source,js]
 ----
 rhel
 ----
 
-Password:
+[start=2]
+. Password:
 
 [source,js,subs="+macros,+attributes",role=execute]
 ----

@@ -2,7 +2,14 @@
 
 == Test Grafana Web Interface
 
-Click on the `+Grafana+` tab in the lab environment. You can now explore this website hosted on your machine. If you see a login page, you have configured your container correctly.
+Click on the `+Grafana+` tab in the lab environment.
+
+.Grafana tab
+image::grafana_tab.png[../assets/grafana_tab]
+
+You will have to click the refresh button to refresh the page.
+
+You can now explore this website hosted on your machine. If you see a login page, you have configured your container correctly.
 
 Log in using the default credentials:
 
