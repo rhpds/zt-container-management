@@ -2,17 +2,34 @@
 
 == Test Grafana Web Interface Gui
 
-Click on the `+Grafana+` tab in the lab environment. You can now explore
-this website hosted on your machine. If you see a login page, you have
-configured your container correctly.
+Click on the `+Grafana+` tab in the lab environment. You will have to click the refresh button to refresh the page.
 
-Log in using the default credentials: >* Username: admin >* Password:
+.Grafana tab
+image::grafana_tab.png[../assets/grafana_tab]
+
+You can now explore this website hosted on your machine. If you see a login page, you have configured your container correctly.
+
+Log in using the default credentials:
+
+. Username
+[source,js]
+----
 admin
+----
 
+[start=2]
+. Password
+[source,js]
+----
+admin
+----
+
+.Grafana login menu
 image::grafanaloginmenu.png[../assets/grafanaloginmenu]
 
 You may be prompted to change the login credentials. You can press the `+skip+` button on that dialog box if you wish.
 
+.Grafana skip password
 image::skippassword.png[../assets/skippassword]
 
 You may now explore Grafana hosted in your container through Podman.

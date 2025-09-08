@@ -10,6 +10,7 @@ containers more simply.
 
 First, click on the `+RHEL Web Console+` tab.
 
+.RHEL Web Console tab
 image::pop-out-2.png[../assets/pop-out-2]
 
 Next, log in with the following credentials:
@@ -34,24 +35,42 @@ After logging in, click on the button in the web console labeled `+Enable admini
 
 image::turn-on-admin.png[../assets/turn-on-admin]
 
-Next, enter the password (`+redhat+`) and click `+Authenticate+`
-
-image::auth.png[../assets/auth]
-
 In the menu on the left side of the web console, select `+Podman containers+`
 
+.Podman containers button
 image::podman_containers_button.png[../assets/podman_containers_button]
 
 From here, you can manage https://developers.redhat.com/blog/2019/01/15/podman-managing-containers-pods[containers and pods]. Click `+Create container+` to create your Grafana container.
 
 image::create_container_button.png[../assets/create_container_button]
 
-In the `+Details+` tab of the `+Create container+` dialog, enter the following details: * Name: Grafana * Image: docker.io/grafana/grafana
+In the `+Details+` tab of the `+Create container+` dialog, enter the following details:
 
+. Name:
+[source,js]
+----
+Grafana
+----
+
+[start=2]
+. Image:
+[source,js]
+----
+docker.io/grafana/grafana
+----
+
+.Grafana details tab
 image::grafana_details_tab.png[../assets/grafana_details_tab]
 
-Next, click on the `+Integration tab+`, select `+Add port mapping+`, enter 3000 as the value for `+Host port+`, enter 3000 as the value for `+Container port+`, and then select `+Create and run+`.
+Next, do the following:
 
+. Click on the `+Integration tab+`
+. Select `+Add port mapping+`
+. Enter 3000 as the value for `+Host port+`
+. Enter 3000 as the value for `+Container port+`
+. Select `+Create and run+`.
+
+.Grafana integration tab
 image::grafana_integration_tab.png[../assets/grafana_integration_tab]
 
 Wait about 30 seconds for the container to run. You may need to refresh the page to update the container status. Once the container state is `+running+`, proceed to the next step.

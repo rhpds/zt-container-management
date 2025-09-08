@@ -2,6 +2,11 @@
 
 == CLI based Container Management
 
+Click on the `+>_ terminal+` tab.
+
+.>_ terminal tab
+image::terminal_tab.png[../assets/terminal_tab]
+
 Now you will set up a new Grafana container, but this time, you will do so through the Podman command line interface (CLI). Next, download and start a Podman image for Grafana with this command:
 
 [source,bash,run]
