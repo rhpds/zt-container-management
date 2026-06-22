@@ -8,6 +8,7 @@ virtualmachines:
     packages:
       - tmux
     image_size: "40G"
+    register_satellite: false
     services:
       - name: cockpit
         ports:
