@@ -13,12 +13,16 @@ The creation dialog collects the container's configuration before anything runs.
 * *Name* — `hostinfo`
 * *Image* — already set to `hostinfo-app`
 
+image::container_create_details.png[Container creation dialog Details tab with name field filled in]
+
 **Integration tab:**
 
 * Select *Add port mapping*
 ** *Host port* — `8000`
 ** *Container port* — `8000`
 ** *Protocol* — `TCP`
+
+image::container_create_ports.png[Container creation dialog Integration tab with port mapping configured]
 
 Select *Create and run*. The dialog closes and the container appears in the Containers panel.
 
@@ -28,20 +32,26 @@ The container row shows its current state in the *Status* column. Within a few s
 
 The *Ports* column shows `0.0.0.0:8000 -> 8000/tcp`, confirming that traffic arriving on the host at port 8000 is forwarded into the container.
 
-Open the *hostinfo* tab. The application is serving and displays the container's hostname — the container ID assigned at creation — along with its runtime environment.
+image::container_list_running.png[Containers panel showing hostinfo in Running state with port mapping visible]
+
+Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving and displays the container's hostname — the container ID assigned at creation — along with its runtime environment.
 
 == Stop and Restart
 
 Select the *Stop* button in the container's action menu. The status changes to `Exited`. The container still exists with all of its configuration intact — it is not running.
 
+image::container_list_exited.png[Containers panel showing hostinfo in Exited state after stopping]
+
 Select *Start*. The status returns to `Running` and the same container resumes with the same name, same port mapping, and same image. This is not a new container — it is the existing one brought back up.
 
-Open the *hostinfo* tab. The application is serving again, with the same container hostname as before. Stopping and starting a container preserves it; only removing it does not.
+Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving again, with the same container hostname as before. Stopping and starting a container preserves it; only removing it does not.
 
 == Remove the Container
 
 Stop the container if it is still running. From the stopped container's action menu, select *Delete*.
 
 The container disappears from the Containers panel. Switch back to the Images panel — `hostinfo-app` is still listed. Removing a container does not remove the image it was created from. The image remains available to create another container whenever you need one.
+
+image::image_persists_after_delete.png[Images panel showing hostinfo-app still present after container removal]
 
 The next module covers what Cockpit shows you about a running container — logs, a live console, and runtime details — without leaving the browser.

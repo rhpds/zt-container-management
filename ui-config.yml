@@ -21,5 +21,3 @@ tabs:
     url: /wetty
   - name: "RHEL Web Console"
     url: https://cockpit-${guid}.${domain}/
-  - name: "hostinfo"
-    url: http://hostinfo-${guid}.${domain}:8000/

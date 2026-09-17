@@ -15,15 +15,21 @@ Select *Create and run*.
 
 Select the container name `hostinfo` in the Containers panel to open its detail view. The detail view has several sections and tabs that provide different views into the running container.
 
+image::container_detail_overview.png[Container detail view showing tabs and summary information]
+
 == Logs
 
 The *Logs* tab shows the container's log output as it arrives — the same stream you would follow with `podman logs -f` in the terminal, but always open. You do not need to invoke anything.
 
 The gunicorn startup lines are visible from when the container started. As the application serves requests, additional log entries appear here in real time.
 
+image::container_logs_tab.png[Logs tab showing gunicorn startup output and live log stream]
+
 == Console
 
 The *Console* tab opens an interactive terminal session inside the running container — the equivalent of `podman exec -it hostinfo /bin/bash`, without the command.
+
+image::container_console_tab.png[Console tab with active terminal session inside the container]
 
 Inside the container, explore its environment:
 
@@ -62,9 +68,13 @@ Below the tabs, the detail view shows the container's configuration as it was cr
 * **Image** — the full image reference including digest
 * **Command** — the process the container is running
 
+image::container_details_panel.png[Container details panel showing port bindings, environment variables, and image reference]
+
 These are the same fields you would extract from `podman inspect` with format strings. Here they are always visible, grouped together, without a command.
 
 The *CPU* and *Memory* columns in the main Containers panel show live resource consumption for each running container — a persistent version of `podman stats --no-stream`.
+
+image::container_list_resource_stats.png[Containers panel showing CPU and memory columns with live resource usage]
 
 == Return to the Container List
 

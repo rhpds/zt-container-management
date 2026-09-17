@@ -10,16 +10,13 @@ In this module you'll configure `hostinfo-app` with an environment variable and 
 
 If `hostinfo` is still running from the previous module, stop it and select *Delete* from its action menu.
 
-== Get the Host Hostname
+== Find the System Hostname
 
-The host hostname needs to be injected as an environment variable. Open the *Terminal* tab and print it:
+Select *Overview* in the left navigation. The system hostname is displayed prominently in the system identity section at the top of the page. Note it — you will enter it as an environment variable in the next step.
 
-[source,bash,role=execute]
-----
-hostname
-----
+image::cockpit_overview_hostname.png[Cockpit Overview page showing system hostname]
 
-Note the value returned. Return to the *RHEL Web Console* tab.
+Select *Podman containers* to return to the container management section.
 
 == Create the Configured Container
 
@@ -38,12 +35,14 @@ In the *Images* panel, select *Create container* from the `hostinfo-app` action 
 
 * Select *Add environment variable*
 ** *Key* — `HOST_HOSTNAME`
-** *Value* — the hostname value from the terminal
+** *Value* — the hostname from the Overview page
 
 * Select *Add volume*
 ** *Host path* — `/usr/lib/os-release`
 ** *Container path* — `/host/os-release`
 ** *Mode* — `Read-only`
+
+image::container_create_configured.png[Container creation Integration tab showing port mapping, environment variable, and volume mount configured together]
 
 Before selecting *Create and run*, review what the form shows. Every resource the container will have access to is listed here — the port it can be reached on, the variable it will receive, the host file it can read. This is the container's full configuration, visible and auditable before it exists.
 
@@ -51,11 +50,19 @@ Select *Create and run*.
 
 == Verify the Configuration
 
-Open the *hostinfo* tab. The application is serving in the container view.
+Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving in the container view.
 
-Select the *Host View* toggle in the application. The hostname field populates from the `HOST_HOSTNAME` variable you provided. The OS distribution populates from the `os-release` file you mounted. Each piece of information the application shows came from a resource you deliberately made available — nothing the container can see was provided by accident.
+Select the *Host View* toggle in the application.
+
+image::hostinfo_host_view_toggle.png[hostinfo-app with Host View toggle highlighted]
+
+The hostname field populates from the `HOST_HOSTNAME` variable you provided. The OS distribution populates from the `os-release` file you mounted. Each piece of information the application shows came from a resource you deliberately made available — nothing the container can see was provided by accident.
+
+image::hostinfo_host_view_populated.png[hostinfo-app Host View showing hostname and OS distribution populated]
 
 Open the container detail view in Cockpit and review the *Environment* and volume mount information. The same configuration you entered in the form is now visible in the running container's details.
+
+image::container_detail_configured.png[Container details panel showing HOST_HOSTNAME environment variable and os-release volume mount]
 
 == What the Form Made Visible
 
