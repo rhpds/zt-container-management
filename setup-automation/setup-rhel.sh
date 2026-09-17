@@ -41,6 +41,12 @@ persist_env_var REGISTRY "${REGISTRY_HOST}"
 setup_cockpit
 echo "Cockpit configured at cockpit-${GUID}.${DOMAIN}" >> /tmp/progress.log
 
+# Disable and clear failed services that don't apply in RHDP
+systemctl disable cloud-init cloud-config cloud-final cloud-init-local \
+    google-startup-scripts dnf-automatic 2>/dev/null || true
+systemctl reset-failed 2>/dev/null || true
+echo "Inapplicable services disabled" >> /tmp/progress.log
+
 cleanup_subscription
 cleanup_certbot
 cleanup_tmpfiles

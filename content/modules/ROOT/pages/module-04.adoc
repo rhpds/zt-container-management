@@ -4,7 +4,7 @@ The RHEL Web Console's creation form shows the complete container specification 
 
 In this module you'll configure `hostinfo-app` with a volume mount and an environment variable, review the full specification in the creation form, and observe the effect in the running application.
 
-`hostinfo-app` has a *Host View* mode that shows information about the system the container is running on. Enabling it requires providing two things the container cannot discover on its own: the host's hostname via an environment variable, and the host OS information via a file mount.
+`hostinfo-app` has a *Host View* mode that displays information about the host system. Containers are isolated by default — they cannot see the host's hostname, OS, or filesystem. To populate the host view, the application needs two things explicitly provided: the hostname injected as an environment variable, and the host OS identity file mounted into the container's filesystem. Without these, the container has no way to discover them.
 
 == Remove the Running Container
 
@@ -16,7 +16,7 @@ Select *Overview* in the left navigation. The system hostname appears in the *Co
 
 image::find_hostname.png[Cockpit Overview page with hostname visible in the Configuration section]
 
-Note the hostname — you will enter it as an environment variable in the next step. Select *Podman containers* to return.
+Note the hostname and select *Podman containers* to return.
 
 == Create the Configured Container
 
@@ -34,7 +34,7 @@ In the *Images* panel, select *Create container* from the `hostinfo-app` row. Th
 * Select *Add volume*
 ** *Host path* — `/usr/lib/os-release`
 ** *Container path* — `/host/os-release`
-** *Writable* — leave unchecked (read-only)
+** *Writable* — uncheck this (checked by default; mounting a host system file read-only)
 ** *SELinux* — leave as `No label`
 
 * Select *Add variable*

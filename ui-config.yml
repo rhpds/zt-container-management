@@ -17,7 +17,5 @@ antora:
       solveButton: false
 
 tabs:
-  - name: "Terminal"
-    url: /wetty
   - name: "RHEL Web Console"
     url: https://cockpit-${guid}.${domain}/

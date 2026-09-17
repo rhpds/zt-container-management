@@ -4,7 +4,7 @@ Pulling an image gives you stored content — a template. A container is a runni
 
 == Create the Container
 
-In the *Images* panel, select *> Show images* to expand it, then select *Create container* from the `hostinfo-app` row.
+Select *Create container* from the `hostinfo-app` image row, or use the *Create container* button in the Containers section header. The image row pre-fills certain information in the dialog; the Containers section button does not.
 
 The creation dialog collects the container's configuration before anything runs. The *Name* field sits above the tabs.
 
@@ -21,7 +21,6 @@ image::create_details_pane.png[Container creation dialog with Name field above t
 * Select *Add port mapping*
 ** *Host port* — `8000`
 ** *Container port* — `8000`
-** *Protocol* — `TCP`
 
 image::create_integration_pane.png[Container creation dialog Integration tab with port mapping configured]
 

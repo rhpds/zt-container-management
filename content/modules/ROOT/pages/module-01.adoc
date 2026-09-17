@@ -19,7 +19,7 @@ The page has two sections:
 * **Images** — lists container images stored on this system. Collapsed by default; select *> Show images* to expand it.
 * **Containers** — lists all containers, running and stopped, with live CPU and memory stats.
 
-The `registry` container visible in the Containers panel is the local image registry that was configured for this lab. It will remain running throughout.
+A `registry` system container may be visible in the Containers panel — this is the local image registry configured for this lab. It runs as a system container and is only visible when administrative access is enabled in Cockpit.
 
 == Pull an Image
 
@@ -27,9 +27,9 @@ Select the three-dot menu (⋮) at the top right of the *Images* section, then s
 
 image::download_new_image.png[Images panel three-dot menu showing Download new image option]
 
-The *Search for an image* dialog opens. In the *Search for* field, type the image reference for the local registry:
+The *Search for an image* dialog opens. In the *Search for* field, enter:
 
-[source,text,subs=attributes+]
+[source,bash,subs=attributes+]
 ----
 registry-{guid}.{domain}/hostinfo-app
 ----
