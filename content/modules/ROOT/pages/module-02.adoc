@@ -34,7 +34,7 @@ The *Ports* column shows `0.0.0.0:8000 -> 8000/tcp`, confirming that traffic arr
 
 image::container_list_running.png[Containers panel showing hostinfo in Running state with port mapping visible]
 
-Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving and displays the container's hostname — the container ID assigned at creation — along with its runtime environment.
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. The application is serving and displays the container's hostname — the container ID assigned at creation — along with its runtime environment.
 
 == Stop and Restart
 
@@ -44,7 +44,7 @@ image::container_list_exited.png[Containers panel showing hostinfo in Exited sta
 
 Select *Start*. The status returns to `Running` and the same container resumes with the same name, same port mapping, and same image. This is not a new container — it is the existing one brought back up.
 
-Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving again, with the same container hostname as before. Stopping and starting a container preserves it; only removing it does not.
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. The application is serving again, with the same container hostname as before. Stopping and starting a container preserves it; only removing it does not.
 
 == Remove the Container
 

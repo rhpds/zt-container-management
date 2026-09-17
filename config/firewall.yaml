@@ -7,9 +7,4 @@ egress:
 ingress:
   - ports:
       - protocol: TCP
-        port: 9090
-# The following lines are suggested based on Instruqt's allow_external_ingress fields:
-# rhel:
-#   - http
-#   - https
-#   - high-ports
+        port: 8000

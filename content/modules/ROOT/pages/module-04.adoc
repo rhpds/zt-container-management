@@ -50,7 +50,7 @@ Select *Create and run*.
 
 == Verify the Configuration
 
-Open http://hostinfo-{guid}.{domain}:8000[*the hostinfo application*^]. The application is serving in the container view.
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. The application is serving in the container view.
 
 Select the *Host View* toggle in the application.
 

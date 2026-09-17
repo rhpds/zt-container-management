@@ -4,26 +4,61 @@ virtualmachines:
     image: "rhel-10-2-eus-06-08-26"
     bootloader: efi
     memory: "4G"
-    cores: 1
-    packages:
-      - tmux
+    cores: 2
     image_size: "40G"
+    tags:
+      - key: "AnsibleGroup"
+        value: "bastions"
+    networks:
+      - default
+    packages:
+      - container-tools
+      - skopeo
     services:
+      - name: registry-http
+        ports:
+          - port: 80
+            protocol: TCP
+            targetPort: 80
+            name: registry-http
+      - name: registry
+        ports:
+          - port: 443
+            protocol: TCP
+            targetPort: 443
+            name: registry
       - name: cockpit
         ports:
           - port: 9090
             protocol: TCP
             targetPort: 9090
             name: cockpit
+      - name: hostinfo
+        ports:
+          - port: 8000
+            protocol: TCP
+            targetPort: 8000
+            name: hostinfo
     routes:
+      - name: registry-http
+        host: registry
+        service: registry-http
+        targetPort: 80
+        tls: false
+        path: "/.well-known/"
+      - name: registry
+        host: registry
+        service: registry
+        targetPort: 443
+        tls: true
       - name: cockpit
         host: cockpit
         service: cockpit
         targetPort: 9090
         tls: true
         tls_termination: Edge
-    tags:
-      - key: "AnsibleGroup"
-        value: "bastions"
-    networks:
-      - default
+      - name: hostinfo
+        host: hostinfo
+        service: hostinfo
+        targetPort: 8000
+        tls: false
