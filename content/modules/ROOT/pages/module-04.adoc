@@ -1,0 +1,64 @@
+= Configuring the Container
+
+When you create a container from the terminal, configuration is assembled incrementally — each flag added one at a time. The full picture only becomes visible after the container exists, via `podman inspect`. The RHEL Web Console works the other way: the creation form shows the complete container specification before anything runs. Every environment variable, every port mapping, every volume mount is visible together in one view before you commit to creating the container.
+
+In this module you'll configure `hostinfo-app` with an environment variable and a volume mount, see the full specification in the creation form, and then observe the effect in the running application.
+
+`hostinfo-app` has a *Host View* mode that shows information about the system the container is running on. Enabling it requires providing two things the container cannot discover on its own across the isolation boundary: the host's hostname via an environment variable, and the host OS information via a file mount.
+
+== Remove the Running Container
+
+If `hostinfo` is still running from the previous module, stop it and select *Delete* from its action menu.
+
+== Get the Host Hostname
+
+The host hostname needs to be injected as an environment variable. Open the *Terminal* tab and print it:
+
+[source,bash,role=execute]
+----
+hostname
+----
+
+Note the value returned. Return to the *RHEL Web Console* tab.
+
+== Create the Configured Container
+
+In the *Images* panel, select *Create container* from the `hostinfo-app` action menu.
+
+**Details tab:**
+
+* *Name* — `hostinfo`
+
+**Integration tab:**
+
+* Select *Add port mapping*
+** *Host port* — `8000`
+** *Container port* — `8000`
+** *Protocol* — `TCP`
+
+* Select *Add environment variable*
+** *Key* — `HOST_HOSTNAME`
+** *Value* — the hostname value from the terminal
+
+* Select *Add volume*
+** *Host path* — `/usr/lib/os-release`
+** *Container path* — `/host/os-release`
+** *Mode* — `Read-only`
+
+Before selecting *Create and run*, review what the form shows. Every resource the container will have access to is listed here — the port it can be reached on, the variable it will receive, the host file it can read. This is the container's full configuration, visible and auditable before it exists.
+
+Select *Create and run*.
+
+== Verify the Configuration
+
+Open the *hostinfo* tab. The application is serving in the container view.
+
+Select the *Host View* toggle in the application. The hostname field populates from the `HOST_HOSTNAME` variable you provided. The OS distribution populates from the `os-release` file you mounted. Each piece of information the application shows came from a resource you deliberately made available — nothing the container can see was provided by accident.
+
+Open the container detail view in Cockpit and review the *Environment* and volume mount information. The same configuration you entered in the form is now visible in the running container's details.
+
+== What the Form Made Visible
+
+From the terminal, assembling this container required multiple flags passed to a single command. The configuration is implicit in the command's arguments, and the full picture is only discoverable after the fact via `podman inspect`.
+
+The creation form required the same information — hostname value, paths, port — but presented it together as a structured specification. Adding or changing a resource means updating a field and creating a new container. The form is always the authoritative view of what the container will be.

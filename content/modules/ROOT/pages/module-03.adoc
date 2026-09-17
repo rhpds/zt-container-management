@@ -1,0 +1,73 @@
+= Observing the Container
+
+Once a container is running, there are several things you might want to see: what it's logging, what's happening inside it, and what resources it's consuming. From the terminal, these require separate commands — `podman logs`, `podman exec`, `podman stats`, `podman inspect` — each invoked separately with different flags. The RHEL Web Console surfaces all of them from a single container detail view.
+
+== Start a Container
+
+Create and run the `hostinfo-app` container again using the same settings as the previous module:
+
+* *Name* — `hostinfo`
+* *Port mapping* — `8000:8000`
+
+Select *Create and run*.
+
+== Open the Container Detail View
+
+Select the container name `hostinfo` in the Containers panel to open its detail view. The detail view has several sections and tabs that provide different views into the running container.
+
+== Logs
+
+The *Logs* tab shows the container's log output as it arrives — the same stream you would follow with `podman logs -f` in the terminal, but always open. You do not need to invoke anything.
+
+The gunicorn startup lines are visible from when the container started. As the application serves requests, additional log entries appear here in real time.
+
+== Console
+
+The *Console* tab opens an interactive terminal session inside the running container — the equivalent of `podman exec -it hostinfo /bin/bash`, without the command.
+
+Inside the container, explore its environment:
+
+[source,bash]
+----
+ls /app
+----
+
+[source,bash]
+----
+cat /app/config.json
+----
+
+The application's default configuration is baked into the image — every new container from this image starts with it.
+
+Check what the container sees as its own process space:
+
+[source,bash]
+----
+cat /proc/1/cmdline | tr '\0' ' '
+----
+
+[source,text]
+----
+/app/venv/bin/python /app/venv/bin/gunicorn --bind 0.0.0.0:8000 app:app
+----
+
+This is the gunicorn process — the container's PID 1. The container sees only its own processes; the rest of the host is not visible. Close the console when done.
+
+== Container Details
+
+Below the tabs, the detail view shows the container's configuration as it was created:
+
+* **Ports** — the host-to-container port mapping in effect
+* **Environment** — variables the container started with, from the image definition
+* **Image** — the full image reference including digest
+* **Command** — the process the container is running
+
+These are the same fields you would extract from `podman inspect` with format strings. Here they are always visible, grouped together, without a command.
+
+The *CPU* and *Memory* columns in the main Containers panel show live resource consumption for each running container — a persistent version of `podman stats --no-stream`.
+
+== Return to the Container List
+
+Navigate back to the main Containers panel. All running containers and their states are visible without any action on your part. The information from the detail view — logs, console access, configuration, resource usage — is available any time you select a container.
+
+In the next module you'll use the creation form to configure a container with custom resources before it runs, and see how the form makes the full configuration visible before you commit to it.

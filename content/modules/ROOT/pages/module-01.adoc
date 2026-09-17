@@ -1,0 +1,66 @@
+= Containers in the RHEL Web Console
+
+Podman tracks the same objects — images and containers — whether you work from a terminal or a browser. The RHEL Web Console surfaces those objects as a persistent, always-current view: no commands to run, no output to parse, no state to infer. The images and containers you see reflect what Podman knows right now.
+
+In this module you'll navigate to the container management section, pull an image from the local registry, and inspect its metadata before doing anything with it.
+
+== Open the Web Console
+
+Select the *RHEL Web Console* tab. Log in with the username `rhel` and the password `{bastion_ssh_password}`.
+
+After logging in, select *Turn on administrative access* to enable privileged operations. Enter the `rhel` user password again when prompted.
+
+The main navigation is on the left. Select *Podman containers* to open the container management section.
+
+== What You're Looking At
+
+The Podman containers section has two panels:
+
+* **Images** — the top panel lists container images stored on this system. This is the same content as `podman images` in the terminal.
+* **Containers** — the bottom panel lists all containers, running and stopped. This is the same content as `podman ps -a`.
+
+Both lists are currently empty. No images have been pulled, so no containers have been created. The state you see here is live — it updates as you work.
+
+== Find the Registry Hostname
+
+The lab environment provides a local container registry. Its hostname is stored in the `REGISTRY` environment variable. Open the *Terminal* tab and print the value:
+
+[source,bash,role=execute]
+----
+echo $REGISTRY
+----
+
+[source,text]
+----
+registry-xxx.example.com
+----
+
+Note this value — you will use it when searching for images. Return to the *RHEL Web Console* tab when done.
+
+== Pull an Image
+
+In the *Images* panel, select *Download new image*.
+
+In the search field, type the full image reference using the registry hostname from the previous step:
+
+[source,text]
+----
+registry-{guid}.{domain}/hostinfo-app
+----
+
+The search results will show the image from the local registry. Select it and choose *Download*. The download progress appears in the Images panel as the layers are fetched.
+
+When the pull completes, `hostinfo-app` appears in the Images list with its tag, size, and the time it was created.
+
+== Inspect the Image
+
+Select the image name to open its detail view. Cockpit displays the image metadata that determines how it can be run:
+
+* **Exposed ports** — the ports the image declares it listens on. `hostinfo-app` declares port `8000/tcp`. This is the contract the image publishes: traffic should be forwarded to this port.
+* **Environment** — variables baked into the image, including `CONTAINER_DEFAULT_USER=65532`. The application will run as this non-root UID.
+* **Command** — the default process the container will run: the Gunicorn WSGI server.
+* **Entrypoint** — the fixed wrapper around the command, if any.
+
+Reading this metadata before creating a container is the same discipline as running `podman inspect` or `skopeo inspect` from the terminal — the image tells you what it expects before you commit to running it.
+
+In the next module you will create a container from this image and work with its lifecycle.
