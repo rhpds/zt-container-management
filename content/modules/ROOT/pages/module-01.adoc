@@ -8,51 +8,52 @@ In this module you'll navigate to the container management section, pull an imag
 
 Select the *RHEL Web Console* tab. Log in with the username `rhel` and the password `{bastion_ssh_password}`.
 
-After logging in, select *Turn on administrative access* to enable privileged operations. Enter the `rhel` user password again when prompted.
-
-The main navigation is on the left. Select *Podman containers* to open the container management section.
-
 == What You're Looking At
 
-The Podman containers section has two panels:
+Select *Podman containers* from the left navigation.
 
-* **Images** — the top panel lists container images stored on this system. This is the same content as `podman images` in the terminal.
-* **Containers** — the bottom panel lists all containers, running and stopped. This is the same content as `podman ps -a`.
+image::podman_containers_overview.png[Podman containers section showing Images panel collapsed and Containers panel with registry container]
 
-Both lists are currently empty. No images have been pulled, so no containers have been created. The state you see here is live — it updates as you work.
+The page has two sections:
 
-image::podman_section_empty.png[Podman containers section with empty images and containers panels]
+* **Images** — lists container images stored on this system. Collapsed by default; select *> Show images* to expand it.
+* **Containers** — lists all containers, running and stopped, with live CPU and memory stats.
+
+The `registry` container visible in the Containers panel is the local image registry that was configured for this lab. It will remain running throughout.
 
 == Pull an Image
 
-In the *Images* panel, select *Download new image*.
+Select the three-dot menu (⋮) at the top right of the *Images* section, then select *Download new image*.
 
-image::image_download_dialog.png[Download new image dialog with search field]
+image::download_new_image.png[Images panel three-dot menu showing Download new image option]
 
-In the search field, type the full image reference for the local registry:
+The *Search for an image* dialog opens. In the *Search for* field, type the image reference for the local registry:
 
-[source,text]
+[source,text,subs=attributes+]
 ----
 registry-{guid}.{domain}/hostinfo-app
 ----
 
-The search results will show the image from the local registry. Select it and choose *Download*. The download progress appears in the Images panel as the layers are fetched.
+image::search_for_image.png[Search for an image dialog showing hostinfo-app result]
 
-When the pull completes, `hostinfo-app` appears in the Images list with its tag, size, and the time it was created.
+The image appears in the results list below the search field. Select it, confirm the *Tag* field shows `latest`, then select *Download*.
 
-image::image_list_pulled.png[Images panel showing hostinfo-app after successful pull]
+When the download completes, select *> Show images* to expand the Images section.
+
+image::show_downloaded_images.png[Images panel expanded showing hostinfo-app alongside the system registry image]
+
+The `hostinfo-app` image appears with its owner (`user: rhel`), disk size, and `unused` in the *Used by* column — no container has been created from it yet.
 
 == Inspect the Image
 
-Select the image name to open its detail view. Cockpit displays the image metadata that determines how it can be run:
+Select the arrow (>) next to the image name to expand its detail row.
 
-* **Exposed ports** — the ports the image declares it listens on. `hostinfo-app` declares port `8000/tcp`. This is the contract the image publishes: traffic should be forwarded to this port.
-* **Environment** — variables baked into the image, including `CONTAINER_DEFAULT_USER=65532`. The application will run as this non-root UID.
-* **Command** — the default process the container will run: the Gunicorn WSGI server.
-* **Entrypoint** — the fixed wrapper around the command, if any.
+image::image_detail.png[Image detail row showing Command, Tags, and Ports fields]
 
-image::image_detail_view.png[Image detail view showing exposed ports, environment variables, and command]
+The image detail shows:
 
-Reading this metadata before creating a container is the same discipline as running `podman inspect` or `skopeo inspect` from the terminal — the image tells you what it expects before you commit to running it.
+* **Command** — the process the container will run by default: `gunicorn --workers 2 --bind 0.0.0.0:8000 app:app`
+* **Tags** — the full registry path and tag
+* **Ports** — `8000/tcp`, the port the application declares it expects to be reached on
 
-In the next module you will create a container from this image and work with its lifecycle.
+Reading this before creating a container confirms what the image expects — specifically that traffic must be forwarded to port 8000. In the next module you will create a container from this image and work with its lifecycle.

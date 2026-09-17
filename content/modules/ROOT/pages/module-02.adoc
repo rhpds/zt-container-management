@@ -4,16 +4,17 @@ Pulling an image gives you stored content — a template. A container is a runni
 
 == Create the Container
 
-In the *Images* panel, find `hostinfo-app` and select *Create container* from its action menu.
+In the *Images* panel, select *> Show images* to expand it, then select *Create container* from the `hostinfo-app` row.
 
-The creation dialog collects the container's configuration before anything runs. Fill in the following:
+The creation dialog collects the container's configuration before anything runs. The *Name* field sits above the tabs.
+
+* *Name* — `hostinfo`
+
+image::create_details_pane.png[Container creation dialog with Name field above the Details, Integration, and Health check tabs]
 
 **Details tab:**
 
-* *Name* — `hostinfo`
-* *Image* — already set to `hostinfo-app`
-
-image::container_create_details.png[Container creation dialog Details tab with name field filled in]
+* *With terminal* — leave checked (default)
 
 **Integration tab:**
 
@@ -22,36 +23,34 @@ image::container_create_details.png[Container creation dialog Details tab with n
 ** *Container port* — `8000`
 ** *Protocol* — `TCP`
 
-image::container_create_ports.png[Container creation dialog Integration tab with port mapping configured]
+image::create_integration_pane.png[Container creation dialog Integration tab with port mapping configured]
 
 Select *Create and run*. The dialog closes and the container appears in the Containers panel.
 
 == Observe the Running State
 
-The container row shows its current state in the *Status* column. Within a few seconds it changes from `Created` to `Running`. No command was needed to check — the list reflects the current state at all times.
+The container row shows current CPU and memory consumption alongside its state. Within a few seconds the State badge changes from `Created` to `Running`.
 
-The *Ports* column shows `0.0.0.0:8000 -> 8000/tcp`, confirming that traffic arriving on the host at port 8000 is forwarded into the container.
+image::state_running.png[Container row showing hostinfo in Running state with CPU and memory stats]
 
-image::container_list_running.png[Containers panel showing hostinfo in Running state with port mapping visible]
-
-Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. The application is serving and displays the container's hostname — the container ID assigned at creation — along with its runtime environment.
+Select the container row to expand it. The *Details* tab shows the container ID, image, and how long it has been running. Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^] — the hostname displayed in the app matches the container ID shown in the Details tab.
 
 == Stop and Restart
 
-Select the *Stop* button in the container's action menu. The status changes to `Exited`. The container still exists with all of its configuration intact — it is not running.
+Select the three-dot menu (⋮) next to the container's state badge, then select *Stop*. The State badge changes to `Exited` and the CPU and Memory columns go blank — the container process is no longer running.
 
-image::container_list_exited.png[Containers panel showing hostinfo in Exited state after stopping]
+image::state_stopped.png[Container row showing hostinfo in Exited state with blank resource columns]
 
-Select *Start*. The status returns to `Running` and the same container resumes with the same name, same port mapping, and same image. This is not a new container — it is the existing one brought back up.
-
-Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. The application is serving again, with the same container hostname as before. Stopping and starting a container preserves it; only removing it does not.
+From the same three-dot menu, select *Start*. The State badge returns to `Running`, and the Details tab shows `Up since: less than a minute ago` — confirming this is the same container resumed, not a new one. Memory and CPU figures reappear as the application begins serving.
 
 == Remove the Container
 
-Stop the container if it is still running. From the stopped container's action menu, select *Delete*.
+From the three-dot menu (⋮), select *Delete*. Because the container is running, Cockpit shows a confirmation dialog: *Delete hostinfo?* with the warning that data in the container will be erased. Select *Force delete* to confirm.
 
-The container disappears from the Containers panel. Switch back to the Images panel — `hostinfo-app` is still listed. Removing a container does not remove the image it was created from. The image remains available to create another container whenever you need one.
+image::force_delete.png[Delete confirmation dialog showing Force delete button for a running container]
 
-image::image_persists_after_delete.png[Images panel showing hostinfo-app still present after container removal]
+The container disappears from the Containers panel. Expand the Images section — `hostinfo-app` is still listed. The *Used by* column now shows `unused`, confirming the image is intact with no container running from it.
 
-The next module covers what Cockpit shows you about a running container — logs, a live console, and runtime details — without leaving the browser.
+image::post_delete_image_details.png[Image row showing Used by column returning to unused after container removal]
+
+The next module covers what Cockpit shows you about a running container — logs, the live console, and the Integration tab — without leaving the browser.
