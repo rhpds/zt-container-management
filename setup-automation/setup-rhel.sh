@@ -50,7 +50,9 @@ systemctl mask dnf-automatic.timer dnf-automatic \
     cloud-init cloud-config cloud-final cloud-init-local \
     google-startup-scripts 2>/dev/null || true
 systemctl reset-failed 2>/dev/null || true
-echo "Inapplicable services masked" >> /tmp/progress.log
+journalctl --rotate 2>/dev/null || true
+journalctl --vacuum-time=1s 2>/dev/null || true
+echo "Inapplicable services masked, journal cleared" >> /tmp/progress.log
 
 cleanup_subscription
 cleanup_certbot
