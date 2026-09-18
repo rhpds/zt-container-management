@@ -27,7 +27,7 @@ Select the three-dot menu (⋮) at the top right of the *Images* section, then s
 
 image::download_new_image.png[Images panel three-dot menu showing Download new image option]
 
-The *Search for an image* dialog opens. In the *Search for* field, enter:
+The *Search for an image* dialog opens. In the *Search for* field, enter the full image reference for the local registry. Partial strings match, but including the registry hostname ensures results come only from the local registry rather than external ones.
 
 [source,bash,subs=attributes+]
 ----

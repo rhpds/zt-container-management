@@ -34,6 +34,10 @@ image::state_running.png[Container row showing hostinfo in Running state with CP
 
 Select the container row to expand it. The *Details* tab shows the container ID, image, and how long it has been running. Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^] — the hostname displayed in the app matches the container ID shown in the Details tab.
 
+Select *> Show images* to expand the Images section. The `hostinfo-app` row now shows `hostinfo` in the *Used by* column — the image is tracking the container running from it.
+
+image::details_updated_usedby.png[Image row showing Used by column updated to show the running hostinfo container]
+
 == Stop and Restart
 
 Select the three-dot menu (⋮) next to the container's state badge, then select *Stop*. The State badge changes to `Exited` and the CPU and Memory columns go blank — the container process is no longer running.

@@ -1,6 +1,6 @@
 = Observing the Container
 
-Once a container is running there are several things you might want to see: what it's logging, what's happening inside it, and what resources it's consuming. Using the CLI these require separate commands — `podman logs`, `podman attach`, `podman stats`, `podman inspect` — each invoked separately with different flags. The RHEL Web Console surfaces all of them from the expanded container row.
+Once a container is running there are several things you might want to see: what it was configured with, what it's logging, and what's happening inside it. Using the CLI these require separate commands — `podman inspect`, `podman logs`, `podman attach` — each invoked separately with different flags. The RHEL Web Console surfaces all of them from the expanded container row.
 
 == Start a Container
 
@@ -19,6 +19,16 @@ image::container_running_state.png[Expanded container row showing Details, Integ
 
 The row itself shows live CPU and memory consumption. The tabs give you deeper views into the running container.
 
+== Console
+
+When you created the container, *With terminal* was checked. That option allocates a TTY and determines how the Console tab connects: with a TTY, Cockpit uses `podman attach`, which connects directly to the container's running process. The Containerfile definition of the image determines what that process is — an image built with a shell as its entrypoint gives you a shell; an image built with an application gives you the application.
+
+`hostinfo-app` is built with gunicorn as its entrypoint.
+
+image::hostinfo_console.png[Console tab showing gunicorn handling a terminal signal from the UI]
+
+Opening the Console causes the UI to send a terminal resize signal to the attached process. Gunicorn receives it and logs the response — that output is the application running, not a shell waiting for input. To run commands inside the container you would use `podman exec` from the terminal, which starts a new process rather than attaching to the existing one.
+
 == Logs
 
 The *Logs* tab shows the container's log output as it arrives — the same stream as `podman logs -f`, but always open without invoking anything.
@@ -27,27 +37,14 @@ image::hostinfo_logs.png[Logs tab showing gunicorn startup lines]
 
 The gunicorn startup lines are visible from when the container started. As the application serves requests, additional entries appear here in real time.
 
-== Console
-
-The *Console* tab uses `podman attach` to connect to the running container. The Containerfile definition of the image determines what that connection lands on: an image built with a shell as its entrypoint gives you an interactive shell; an image built with an application as its entrypoint gives you the application.
-
-`hostinfo-app` is built with gunicorn as its entrypoint.
-
-image::hostinfo_console.png[Console tab showing gunicorn handling a terminal signal from the UI]
-
-Opening the Console causes the UI to send a terminal resize signal to the attached process. Gunicorn receives it and logs the response — that output is the application running, not a shell waiting for input. To run commands inside the container you would use `podman exec` from the terminal, which starts a new process rather than attaching to the existing one.
-
 == Integration Tab
 
-The *Integration* tab shows the port mappings and environment variables the container was created with.
+The *Integration* tab shows what the container was configured with at creation: port mappings, volume mounts, and environment variables — the same fields `podman inspect` returns, visible without a command or format string.
 
 image::hostinfo_integration.png[Integration tab showing port mapping and environment variables]
 
 * **Ports** — `0.0.0.0:8000 → 8000/tcp`, the mapping in effect
-* **Environment** — variables from the image definition, including `CONTAINER_DEFAULT_USER=65532` and the Python runtime settings
+* **Volumes** — empty; this container has no mounts
+* **Environment** — variables the container started with, including those baked into the image such as `CONTAINER_DEFAULT_USER=65532`. Select *Show more* to expand the full list.
 
-These are the same fields returned by `podman inspect` — ports and environment — visible without a command or format string.
-
-The CPU and Memory columns in the Containers panel reflect live resource consumption for each running container, a persistent equivalent of `podman stats --no-stream`.
-
-In the next module you'll use the creation form to configure a container with custom resources before it runs, and see how the form makes the full configuration visible before you commit to it.
+In the next module you'll create a container with explicit volume mounts and environment variables — and these same fields will show what you provided.

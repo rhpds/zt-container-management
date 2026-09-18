@@ -29,11 +29,20 @@ In the *Images* panel, select *Create container* from the `hostinfo-app` row. Th
 * Select *Add port mapping*
 ** *Host port* — `8000`
 ** *Container port* — `8000`
-** *Protocol* — `TCP`
 
 * Select *Add volume*
-** *Host path* — `/usr/lib/os-release`
-** *Container path* — `/host/os-release`
+** *Host path* — the field offers autocomplete; enter:
++
+[source,bash]
+----
+/usr/lib/os-release
+----
+** *Container path*:
++
+[source,bash]
+----
+/host/os-release
+----
 ** *Writable* — uncheck this (checked by default; mounting a host system file read-only)
 ** *SELinux* — leave as `No label`
 
@@ -55,7 +64,11 @@ image::host_view.png[hostinfo-app Host View showing hostname and OS distribution
 
 The hostname populates from the `HOST_HOSTNAME` variable. The OS distribution populates from the `os-release` file. Each piece of information came from a resource explicitly provided — nothing the container can see was made available by accident.
 
-In Cockpit, expand the `hostinfo` container row and select the *Integration* tab to see the port mapping, volume mount, and environment variables as the container sees them.
+In Cockpit, expand the `hostinfo` container row and select the *Integration* tab. It shows three sections:
+
+* **Ports** — `0.0.0.0:8000 → 8000/tcp`
+* **Volumes** — `/usr/lib/os-release → /host/os-release`
+* **Environment** — the full variable list, including `HOST_HOSTNAME` with the value you provided. Select *Show more* to expand it.
 
 image::details_with_env.png[Integration tab showing active port mapping, volume mount, and injected environment variables]
 
