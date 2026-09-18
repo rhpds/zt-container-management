@@ -41,11 +41,16 @@ persist_env_var REGISTRY "${REGISTRY_HOST}"
 setup_cockpit
 echo "Cockpit configured at cockpit-${GUID}.${DOMAIN}" >> /tmp/progress.log
 
-# Disable and clear failed services that don't apply in RHDP
-systemctl disable cloud-init cloud-config cloud-final cloud-init-local \
-    google-startup-scripts dnf-automatic 2>/dev/null || true
+# Stop, mask, and clear services that fail in RHDP and would pollute
+# Cockpit's health panel (cloud-init stages, GCE scripts, dnf-automatic timer)
+systemctl stop dnf-automatic.timer dnf-automatic \
+    cloud-init cloud-config cloud-final cloud-init-local \
+    google-startup-scripts 2>/dev/null || true
+systemctl mask dnf-automatic.timer dnf-automatic \
+    cloud-init cloud-config cloud-final cloud-init-local \
+    google-startup-scripts 2>/dev/null || true
 systemctl reset-failed 2>/dev/null || true
-echo "Inapplicable services disabled" >> /tmp/progress.log
+echo "Inapplicable services masked" >> /tmp/progress.log
 
 cleanup_subscription
 cleanup_certbot
