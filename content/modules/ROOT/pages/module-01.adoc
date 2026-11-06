@@ -7,6 +7,9 @@ In this module you'll navigate to the container management section, pull an imag
 == Open the Web Console
 
 Select the *RHEL Web Console* tab. Log in with the username `rhel` and the password `{bastion_ssh_password}`.
+Turn on administrative access for this session via the button. 
+
+image::admin.png[Cockpit admin access banner]
 
 == What You're Looking At
 

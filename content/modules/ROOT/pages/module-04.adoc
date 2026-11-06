@@ -4,6 +4,10 @@ The RHEL Web Console's creation form shows the complete container specification 
 
 In this module you'll configure `hostinfo-app` with a volume mount and an environment variable, review the full specification in the creation form, and observe the effect in the running application.
 
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. Select the *Host View* toggle.
+
+image::hostinfo-unconfig.png[Hostinfo application with warnings about host level access]
+
 `hostinfo-app` has a *Host View* mode that displays information about the host system. Containers are isolated by default — they cannot see the host's hostname, OS, or filesystem. To populate the host view, the application needs two things explicitly provided: the hostname injected as an environment variable, and the host OS identity file mounted into the container's filesystem. Without these, the container has no way to discover them.
 
 == Remove the Running Container

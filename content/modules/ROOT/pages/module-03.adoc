@@ -45,6 +45,8 @@ image::hostinfo_integration.png[Integration tab showing port mapping and environ
 
 * **Ports** — `0.0.0.0:8000 → 8000/tcp`, the mapping in effect
 * **Volumes** — empty; this container has no mounts
-* **Environment** — variables the container started with, including those baked into the image such as `CONTAINER_DEFAULT_USER=65532`. Select *Show more* to expand the full list.
+* **Environment** — variables the container started with, including those baked into the image such as `CONTAINER_DEFAULT_USER=65532`. 
+
+Select *Show more* to expand the full list.
 
 In the next module you'll create a container with explicit volume mounts and environment variables — and these same fields will show what you provided.
