@@ -1,0 +1,59 @@
+= Running a Container
+
+Pulling an image gives you stored content — a template. A container is a running instance of that template: a process on the host with its own isolated environment, created from the image you pulled. In this module you'll create a container, observe its lifecycle states, and see how Cockpit makes those states permanently visible without any commands.
+
+== Create the Container
+
+Select *Create container* from the `hostinfo-app` image row, or use the *Create container* button in the Containers section header. The image row pre-fills certain information in the dialog; the Containers section button does not.
+
+The creation dialog collects the container's configuration before anything runs. The *Name* field sits above the tabs.
+
+* *Name* — `hostinfo`
+
+image::create_details_pane.png[Container creation dialog with Name field above the Details, Integration, and Health check tabs]
+
+**Details tab:**
+
+* *With terminal* — leave checked (default)
+
+**Integration tab:**
+
+* Select *Add port mapping*
+** *Host port* — `8000`
+** *Container port* — `8000`
+
+image::create_integration_pane.png[Container creation dialog Integration tab with port mapping configured]
+
+Select *Create and run*. The dialog closes and the container appears in the Containers panel.
+
+== Observe the Running State
+
+Select *> Show images* to expand the Images section. The `hostinfo-app` row now shows `hostinfo` in the *Used by* column — the image is tracking the container running from it.
+
+image::details_updated_usedby.png[Image row showing Used by column updated to show the running hostinfo container]
+
+The container row shows current CPU and memory consumption alongside its state. Within a few seconds the State badge changes from `Created` to `Running`.
+
+image::state_running.png[Container row showing hostinfo in Running state with CPU and memory stats]
+
+Select the container row to expand it. The *Details* tab shows the container ID, image, and how long it has been running. Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^] — the hostname displayed in the app matches the container ID shown in the Details tab.
+
+== Stop and Restart
+
+Select the three-dot menu (⋮) next to the container's state badge, then select *Stop*. The State badge changes to `Exited` and the CPU and Memory columns go blank — the container process is no longer running.
+
+image::state_stopped.png[Container row showing hostinfo in Exited state with blank resource columns]
+
+From the same three-dot menu, select *Start*. The State badge returns to `Running`, and the Details tab shows `Up since: less than a minute ago` — confirming this is the same container resumed, not a new one. Memory and CPU figures reappear as the application begins serving.
+
+== Remove the Container
+
+From the three-dot menu (⋮), select *Delete*. Because the container is running, Cockpit shows a confirmation dialog: *Delete hostinfo?* with the warning that data in the container will be erased. Select *Force delete* to confirm.
+
+image::force_delete.png[Delete confirmation dialog showing Force delete button for a running container]
+
+The container disappears from the Containers panel. Expand the Images section — `hostinfo-app` is still listed. The *Used by* column now shows `unused`, confirming the image is intact with no container running from it.
+
+image::post_delete_image_details.png[Image row showing Used by column returning to unused after container removal]
+
+The next module covers what Cockpit shows you about a running container — logs, the live console, and the Integration tab — without leaving the browser.

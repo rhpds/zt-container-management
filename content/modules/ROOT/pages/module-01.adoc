@@ -1,0 +1,62 @@
+= Containers in the RHEL Web Console
+
+The RHEL Web Console is a browser-based system management interface for RHEL. It gives operators a persistent view of the system — services, storage, networking, and containers — without requiring command-line access. For containers specifically, it means container state is always visible, lifecycle actions are a click away, and configuration is auditable before anything runs.
+
+In this module you'll navigate to the container management section, pull an image from the local registry, and inspect its metadata before doing anything with it.
+
+== Open the Web Console
+
+Select the *RHEL Web Console* tab. Log in with the username `rhel` and the password `{bastion_ssh_password}`.
+Turn on administrative access for this session via the button. 
+
+image::admin.png[Cockpit admin access banner]
+
+== What You're Looking At
+
+Select *Podman containers* from the left navigation.
+
+image::podman_containers_overview.png[Podman containers section showing Images panel collapsed and Containers panel with registry container]
+
+The page has two sections:
+
+* **Images** — lists container images stored on this system. Collapsed by default; select *> Show images* to expand it.
+* **Containers** — lists all containers, running and stopped, with live CPU and memory stats.
+
+A `registry` system container may be visible in the Containers panel — this is the local image registry configured for this lab. It runs as a system container and is only visible when administrative access is enabled in Cockpit.
+
+== Pull an Image
+
+Select the three-dot menu (⋮) at the top right of the *Images* section, then select *Download new image*.
+
+image::download_new_image.png[Images panel three-dot menu showing Download new image option]
+
+The *Search for an image* dialog opens. In the *Search for* field, enter the full image reference for the local registry. Partial strings match, but including the registry hostname ensures results come only from the local registry rather than external ones.
+
+[source,bash,subs=attributes+]
+----
+registry-{guid}.{domain}/hostinfo-app
+----
+
+image::search_for_image.png[Search for an image dialog showing hostinfo-app result]
+
+The image appears in the results list below the search field. Select it, confirm the *Tag* field shows `latest`, then select *Download*.
+
+When the download completes, select *> Show images* to expand the Images section.
+
+image::show_downloaded_images.png[Images panel expanded showing hostinfo-app alongside the system registry image]
+
+The `hostinfo-app` image appears with its owner (`user: rhel`), disk size, and `unused` in the *Used by* column — no container has been created from it yet.
+
+== Inspect the Image
+
+Select the arrow (>) next to the image name to expand its detail row.
+
+image::image_detail.png[Image detail row showing Command, Tags, and Ports fields]
+
+The image detail shows:
+
+* **Command** — the process the container will run by default: `gunicorn --workers 2 --bind 0.0.0.0:8000 app:app`
+* **Tags** — the full registry path and tag
+* **Ports** — `8000/tcp`, the port the application declares it expects to be reached on
+
+Reading this before creating a container confirms what the image expects — specifically that traffic must be forwarded to port 8000. In the next module you will create a container from this image and work with its lifecycle.

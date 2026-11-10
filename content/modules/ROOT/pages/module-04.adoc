@@ -1,0 +1,81 @@
+= Configuring the Container
+
+The RHEL Web Console's creation form shows the complete container specification before anything runs — every port mapping, volume mount, and environment variable visible together in one view. Using the Podman CLI the same configuration would be assembled incrementally as flags on a single command, with the full picture only recoverable afterward via `podman inspect`.
+
+In this module you'll configure `hostinfo-app` with a volume mount and an environment variable, review the full specification in the creation form, and observe the effect in the running application.
+
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. Select the *Host View* toggle.
+
+image::hostinfo-unconfig.png[Hostinfo application with warnings about host level access]
+
+`hostinfo-app` has a *Host View* mode that displays information about the host system. Containers are isolated by default — they cannot see the host's hostname, OS, or filesystem. To populate the host view, the application needs two things explicitly provided: the hostname injected as an environment variable, and the host OS identity file mounted into the container's filesystem. Without these, the container has no way to discover them.
+
+== Remove the Running Container
+
+If `hostinfo` is still running from the previous module, select the three-dot menu (⋮) and select *Delete*.
+
+== Find the System Hostname
+
+Select *Overview* in the left navigation. The system hostname appears in the *Configuration* section of the page.
+
+image::find_hostname.png[Cockpit Overview page with hostname visible in the Configuration section]
+
+Note the hostname and select *Podman containers* to return.
+
+== Create the Configured Container
+
+In the *Images* panel, select *Create container* from the `hostinfo-app` row. The *Name* field sits above the tabs.
+
+* *Name* — `hostinfo`
+
+**Integration tab** — add the following in order:
+
+* Select *Add port mapping*
+** *Host port* — `8000`
+** *Container port* — `8000`
+
+* Select *Add volume*
+** *Host path* — the field offers autocomplete; enter:
++
+[source,bash]
+----
+/usr/lib/os-release
+----
+** *Container path*:
++
+[source,bash]
+----
+/host/os-release
+----
+** *Writable* — uncheck this (checked by default; mounting a host system file read-only)
+** *SELinux* — leave as `No label`
+
+* Select *Add variable*
+** *Key* — `HOST_HOSTNAME`
+** *Value* — the hostname from the Overview page
+
+image::create_configured.png[Integration tab showing port mapping, volume mount, and environment variable configured together before creation]
+
+Before selecting *Create and run*, review what the form shows. The port the container will be reached on, the host file it can read, and the variable it will receive are all listed in one place before the container exists.
+
+Select *Create and run*.
+
+== Verify the Configuration
+
+Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. Select the *Host View* toggle.
+
+image::host_view.png[hostinfo-app Host View showing hostname and OS distribution populated from injected resources]
+
+The hostname populates from the `HOST_HOSTNAME` variable. The OS distribution populates from the `os-release` file. Each piece of information came from a resource explicitly provided — nothing the container can see was made available by accident.
+
+In Cockpit, expand the `hostinfo` container row and select the *Integration* tab. It shows three sections:
+
+* **Ports** — `0.0.0.0:8000 → 8000/tcp`
+* **Volumes** — `/usr/lib/os-release → /host/os-release`
+* **Environment** — the full variable list, including `HOST_HOSTNAME` with the value you provided. Select *Show more* to expand it.
+
+image::details_with_env.png[Integration tab showing active port mapping, volume mount, and injected environment variables]
+
+== What the Form Made Visible
+
+Using the Podman CLI, this configuration would require multiple flags assembled one at a time — port, volume with options, environment variable — and the complete picture is only available after the container exists via `podman inspect`. The creation form collects the same information upfront as a structured specification, making the full configuration visible and auditable before anything runs.
