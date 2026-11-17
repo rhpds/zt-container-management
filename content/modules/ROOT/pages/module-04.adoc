@@ -16,6 +16,9 @@ If `hostinfo` is still running from the previous module, select the three-dot me
 
 == Find the System Hostname
 
+The user and hostname are always listed in the top right corner of the header on the top of the page.
+You can also find the hostname in other places, like the *Overview* page.
+
 Select *Overview* in the left navigation. The system hostname appears in the *Configuration* section of the page.
 
 image::find_hostname.png[Cockpit Overview page with hostname visible in the Configuration section]
@@ -66,7 +69,9 @@ Open http://hostinfo-{guid}.{domain}[*the hostinfo application*^]. Select the *H
 
 image::host_view.png[hostinfo-app Host View showing hostname and OS distribution populated from injected resources]
 
-The hostname populates from the `HOST_HOSTNAME` variable. The OS distribution populates from the `os-release` file. Each piece of information came from a resource explicitly provided — nothing the container can see was made available by accident.
+The hostname populates from the `HOST_HOSTNAME` variable. The OS distribution populates from the `os-release` file. 
+However the package version table is populated via the `rpmdb`, which this container can't read.
+Each piece of information came from a resource explicitly provided, nothing leaks into the container unintentionally.
 
 In Cockpit, expand the `hostinfo` container row and select the *Integration* tab. It shows three sections:
 
