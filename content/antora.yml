@@ -4,6 +4,6 @@ version: master
 
 asciidoc:
   attributes:
-    lab_name: "Running Containers on Red Hat Enterprise Linux"
+    lab_name: "Managing Containers with the RHEL Web Console"
     release-version: master
     page-pagination: true

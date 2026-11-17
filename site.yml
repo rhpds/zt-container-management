@@ -1,8 +1,8 @@
 ---
 site:
-  title: "Running Containers on Red Hat Enterprise Linux"
+  title: "Managing Containers with the RHEL Web Console"
   url: https://github.com/rhpds/showroom_template_zero
-  start_page: modules::01-install-podman.adoc
+  start_page: modules::module-01.adoc
 
 content:
   sources:
